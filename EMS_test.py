@@ -556,7 +556,7 @@ def CITANJE_REGISTARA():
             #     logger.warning("Greška čitanja podataka s probnog B registra: %s", e)    
         
 
-            time.sleep(1)
+            time.sleep(0.15)
 
         except Exception as e:
             # preostale greške u background tasku
@@ -643,7 +643,7 @@ def MQTT_indikator():
 
             data1 = {
                 
-                "SN_HEP": 1,
+                "L1 (A) ured": probni_a_value,
                 "SN_SOL_IX": 2,
                 "NN_SOL_IX" : 3
             }
