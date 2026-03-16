@@ -673,7 +673,7 @@ if __name__ == '__main__':
     logger.info("Pokretanje pozadinskih servisa...")
 
     Thread(target=CITANJE_REGISTARA, daemon=True).start()
-    #Thread(target=FRONTEND_PRIJENOS, daemon=True).start()
+    Thread(target=FRONTEND_PRIJENOS, daemon=True).start()
     Thread(target=save_data, daemon=True).start()
     Thread(target=MQTT_indikator, daemon=True).start()
 
