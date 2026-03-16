@@ -538,22 +538,22 @@ def CITANJE_REGISTARA():
                 logger.warning("Greška čitanja podataka s probnog A registra: %s", e)
 
              # PROBNI B
-            try:
-                probni_b_value = read_register_internal(probni_b_citanje["register_id"], client_key=probni_b_citanje["client_key"], datatype=probni_b_citanje["datatype"]).get("data", 0)
-                probni_b_value *= probni_b_citanje["gain"]
-                probni_b_value = safe_round(probni_b_value)
-            except Exception as e:
-                probni_b_value = 0
-                logger.warning("Greška čitanja podataka s probnog B registra: %s", e)    
+            # try:
+            #     probni_b_value = read_register_internal(probni_b_citanje["register_id"], client_key=probni_b_citanje["client_key"], datatype=probni_b_citanje["datatype"]).get("data", 0)
+            #     probni_b_value *= probni_b_citanje["gain"]
+            #     probni_b_value = safe_round(probni_b_value)
+            # except Exception as e:
+            #     probni_b_value = 0
+            #     logger.warning("Greška čitanja podataka s probnog B registra: %s", e)    
             
-             # PROBNI C
-            try:
-                probni_c_value = read_register_internal(probni_c_citanje["register_id"], client_key=probni_c_citanje["client_key"], datatype=probni_c_citanje["datatype"]).get("data", 0)
-                probni_c_value *= probni_c_citanje["gain"]
-                probni_c_value = safe_round(probni_c_value)
-            except Exception as e:
-                probni_c_value = 0
-                logger.warning("Greška čitanja podataka s probnog B registra: %s", e)    
+            #  # PROBNI C
+            # try:
+            #     probni_c_value = read_register_internal(probni_c_citanje["register_id"], client_key=probni_c_citanje["client_key"], datatype=probni_c_citanje["datatype"]).get("data", 0)
+            #     probni_c_value *= probni_c_citanje["gain"]
+            #     probni_c_value = safe_round(probni_c_value)
+            # except Exception as e:
+            #     probni_c_value = 0
+            #     logger.warning("Greška čitanja podataka s probnog B registra: %s", e)    
         
 
             time.sleep(1)
@@ -674,7 +674,7 @@ if __name__ == '__main__':
 
     Thread(target=CITANJE_REGISTARA, daemon=True).start()
     #Thread(target=FRONTEND_PRIJENOS, daemon=True).start()
-    #Thread(target=save_data, daemon=True).start()
+    Thread(target=save_data, daemon=True).start()
     Thread(target=MQTT_indikator, daemon=True).start()
 
     logger.info("Pokretanje WAITRESS servisa http://0.0.0.0:5000 ...")
