@@ -10,9 +10,9 @@
 MODBUS_DEVICES:
   A:
     type: tcp
-    ip: 192.168.6.10
+    ip: 192.168.1.113
     port: 502
-    slave_id: 1       # Logger elektrane + baterije (HUAWEI)
+    slave_id: 3       # Logger elektrane + baterije (HUAWEI)
     word_order: big
 
   B:
@@ -65,10 +65,10 @@ definicija_registara:
 
   #....................... čitanje s registara..............................
   probni_a_citanje:
-    register_id: 7025
+    register_id: 30783
     client_key: "A"
     datatype: "int16"
-    gain: 0.1
+    gain: 1
 
   probni_b_citanje:
     register_id: 7000
