@@ -65,10 +65,10 @@ definicija_registara:
 
   #....................... čitanje s registara..............................
   probni_a_citanje:
-    register_id: 30784
+    register_id: 30977
     client_key: "A"
     datatype: "int32"
-    gain: 1
+    gain: 0.01
 
   probni_b_citanje:
     register_id: 7000
