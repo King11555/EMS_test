@@ -67,7 +67,7 @@ definicija_registara:
   probni_a_citanje:
     register_id: 30783
     client_key: "A"
-    datatype: "int16"
+    datatype: "int32"
     gain: 1
 
   probni_b_citanje:
