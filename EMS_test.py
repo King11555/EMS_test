@@ -557,7 +557,7 @@ def CITANJE_REGISTARA():
             #     logger.warning("Greška čitanja podataka s probnog B registra: %s", e)    
         
 
-            time.sleep(0.15)
+            time.sleep(1)
 
         except Exception as e:
             # preostale greške u background tasku
