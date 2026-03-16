@@ -533,6 +533,7 @@ def CITANJE_REGISTARA():
                 probni_a_value = read_register_internal(probni_a_citanje["register_id"], client_key=probni_a_citanje["client_key"], datatype=probni_a_citanje["datatype"]).get("data", 0)
                 probni_a_value *= probni_a_citanje["gain"]
                 probni_a_value = safe_round(probni_a_value)
+                print(f"Vrijednost struje L1(A) {probni_a_value}")
             except Exception as e:
                 probni_a_value = 0
                 logger.warning("Greška čitanja podataka s probnog A registra: %s", e)
