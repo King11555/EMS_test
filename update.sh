@@ -8,43 +8,39 @@ TMP_DIR="repo_tmp"
 
 # ------------------------- DOWNLOAD -------------------------
 echo "Downloading repository..."
-if wget -q -O "$TMP_ZIP" "$REPO_ZIP_URL"; then
-    echo "✅ Downloaded $REPO_ZIP_URL"
-else
-    echo "❌ Download failed!"
-    exit 1
-fi
+wget -q -O "$TMP_ZIP" "$REPO_ZIP_URL" \
+    && echo "✅ Downloaded $REPO_ZIP_URL" \
+    || { echo "❌ Download failed!"; exit 1; }
 
 # ------------------------- CLEAN OLD FILES -------------------------
-echo "Cleaning old files..."
+echo "Cleaning old temporary files..."
 rm -rf "$TMP_DIR"
-# Do not delete LOCAL_FOLDER yet in case copy fails, safer to overwrite later
+mkdir -p "$TMP_DIR"
 
 # ------------------------- EXTRACT -------------------------
 echo "Extracting repository..."
-mkdir -p "$TMP_DIR"
-if unzip -q "$TMP_ZIP" -d "$TMP_DIR"; then
-    echo "✅ Extraction complete"
-else
-    echo "❌ Extraction failed!"
-    rm -f "$TMP_ZIP"
-    exit 1
-fi
+unzip -q "$TMP_ZIP" -d "$TMP_DIR" \
+    && echo "✅ Extraction complete" \
+    || { echo "❌ Extraction failed!"; rm -f "$TMP_ZIP"; exit 1; }
 
 # ------------------------- DETECT EXTRACTED FOLDER -------------------------
 EXTRACTED_FOLDER=$(find "$TMP_DIR" -maxdepth 1 -type d -name "EMS_test-*")
-
 if [ -z "$EXTRACTED_FOLDER" ]; then
     echo "❌ Could not find extracted folder!"
     rm -rf "$TMP_DIR" "$TMP_ZIP"
     exit 1
 fi
 
-# ------------------------- MOVE FILES -------------------------
+# ------------------------- OVERWRITE LOCAL FOLDER -------------------------
 echo "Updating $LOCAL_FOLDER with latest files..."
+
+# Ensure local folder exists
 mkdir -p "$LOCAL_FOLDER"
 
-# Copy all files including hidden ones from the extracted folder into your local folder
+# Remove old contents of LOCAL_FOLDER (but keep the folder itself)
+rm -rf "$LOCAL_FOLDER"/* "$LOCAL_FOLDER"/.*
+
+# Copy all files including hidden files from extracted folder
 cp -r "$EXTRACTED_FOLDER"/. "$LOCAL_FOLDER"/
 
 # ------------------------- CLEANUP -------------------------
