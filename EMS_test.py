@@ -589,8 +589,7 @@ def CITANJE_REGISTARA():
              # PROBNI B
             try:
                 probni_b_value = read_register_internal(probni_b_citanje["register_id"], client_key=probni_b_citanje["client_key"], datatype=probni_b_citanje["datatype"]).get("data", 0)
-                probni_b_value *= probni_b_citanje["gain"]
-                probni_b_value = safe_round(probni_b_value)
+
                 print(f"optokupler vrijednost: {probni_b_value}")
                
             
