@@ -22,10 +22,10 @@ MODBUS_DEVICES:
     slave_id: 4          # Energy meter na loggeru
     word_order: big
 
-  C:                    #Senzor ozračenosti istok
+  C:                    #optokupler
     type: rtu
     port: /dev/ttyUSB0
-    baudrate: 9600
+    baudrate: 115200
     parity: N
     stopbits: 1
     bytesize: 8
@@ -56,7 +56,7 @@ MODBUS_DEVICES:
     #    datatype (str): Data type to read. Supported:
     #                    'int16', 'uint16', 'int32', 'uint32',
     #                    'float32', 'float64', 'string'
-    #
+    #                     'rtu0x02' -> čitanje 0x02 array s optokuplera
     #Returns:
     #    dict: {"status": "success"/"error", "message": str, "data": value}
     #""
@@ -71,10 +71,10 @@ definicija_registara:
     gain: 0.01
 
   probni_b_citanje:
-    register_id: 7000
-    client_key: "A"
-    datatype: "int16"
-    gain: 0.1
+    register_id: 1
+    client_key: "C"
+    datatype: "rtu0x02"
+    gain: 1
   
   probni_c_citanje:
     register_id: 507

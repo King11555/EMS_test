@@ -289,6 +289,18 @@ def read_register_internal(address, client_key="A", datatype="int32"):
             
             packed = struct.pack('>HH', result.registers[0], result.registers[1])
             value = packed.decode(errors="ignore").strip()
+        
+        elif datatype == "rtu0x02":
+            # New FC0x02 option
+            count = MODBUS_DEVICES[client_key].get("discrete_input_count", 8)
+            result = client.read_discrete_inputs(address=address, count=count, unit=slave_id)
+
+            if result.isError():
+                logger.error(f"Modbus FC0x02 error on {client_key}: {result}")
+                reset_modbus_client(client_key, client)
+                return {"status": "error", "message": "Modbus FC0x02 read failed", "data": None}
+
+            value = result.bits[:count]
 
         else:
             return {"status": "error", "message": f"Unsupported datatype: {datatype}", "data": None}
@@ -570,30 +582,21 @@ def CITANJE_REGISTARA():
                 probni_a_value = safe_round(probni_a_value)
                 print(f"Vrijednost struje L1(A) {probni_a_value}")
 
-                #EMAIL TRIGGER
-                if probni_a_value is not None and probni_a_value > 50:
-                    current_time = time.time()
-
-                    if current_time - last_email_time > EMAIL_COOLDOWN:
-                        send_email_alert(
-                            subject="TEST - slanje E-maila",
-                            body=f"Prekidač u susretnom postrojenju isklopljen: {probni_a_value} !"
-                        )
-                        last_email_time = current_time
-
-
             except Exception as e:
                 probni_a_value = 0
                 logger.warning("Greška čitanja podataka s probnog A registra: %s", e)
 
              # PROBNI B
-            # try:
-            #     probni_b_value = read_register_internal(probni_b_citanje["register_id"], client_key=probni_b_citanje["client_key"], datatype=probni_b_citanje["datatype"]).get("data", 0)
-            #     probni_b_value *= probni_b_citanje["gain"]
-            #     probni_b_value = safe_round(probni_b_value)
-            # except Exception as e:
-            #     probni_b_value = 0
-            #     logger.warning("Greška čitanja podataka s probnog B registra: %s", e)    
+            try:
+                probni_b_value = read_register_internal(probni_b_citanje["register_id"], client_key=probni_b_citanje["client_key"], datatype=probni_b_citanje["datatype"]).get("data", 0)
+                probni_b_value *= probni_b_citanje["gain"]
+                probni_b_value = safe_round(probni_b_value)
+                print(f"optokupler vrijednost: {probni_b_value}")
+               
+            
+            except Exception as e:
+                probni_b_value = 0
+                logger.warning("Greška čitanja podataka s probnog B registra: %s", e)    
             
             #  # PROBNI C
             # try:
