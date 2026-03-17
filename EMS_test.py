@@ -587,7 +587,7 @@ def MQTT_indikator():
     BROKER1 = "ba17a54308ab4625a6ac98fe3677d0ec.s1.eu.hivemq.cloud"
     PORT1 = 8883  # TLS port
     USERNAME1 = "Filip"
-    PASSWORD1 = "Solektra123"
+    PASSWORD1 = "Pinkala!23"
 
     CLIENT_ID1 = "SOL_IX"  # must be a string
     TOPIC1 = "Indikator_SN/SOL_IX"          # must be a string
