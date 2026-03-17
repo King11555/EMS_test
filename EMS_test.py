@@ -501,15 +501,18 @@ EMAIL_COOLDOWN = 60  # seconds
 
 # ---------------------------------- Rutina za slanje mail-a ---------------------------------------------------
 
-def send_email_alert(subject, body):
+def send_email_alert(subject, body, receivers=None):
     sender_email = "filip.kralj@solektra.hr"
-    receiver_email = "kralj.filip007@gmail.com"
     password = "syaa vzpb pogu yseb"  # from Google
+
+    # Default receiver if none provided
+    if receivers is None:
+        receivers = ["kralj.filip@solektra.hr", "denis.safaric@solektra.hr", "juraj.barlek@solektra.hr"]
 
     try:
         msg = MIMEMultipart()
         msg["From"] = sender_email
-        msg["To"] = receiver_email
+        msg["To"] = ", ".join(receivers)  # comma-separated string for header
         msg["Subject"] = subject
 
         msg.attach(MIMEText(body, "plain"))
@@ -517,10 +520,10 @@ def send_email_alert(subject, body):
         server = smtplib.SMTP("smtp.gmail.com", 587)
         server.starttls()
         server.login(sender_email, password)
-        server.send_message(msg)
+        server.send_message(msg, from_addr=sender_email, to_addrs=receivers)  # use list here
         server.quit()
 
-        logger.info("Email poslan!")
+        logger.info(f"Email poslan! Odbiorcy: {receivers}")
 
     except Exception as e:
         logger.error(f"Email error: {e}")
