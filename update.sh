@@ -1,19 +1,29 @@
 #!/bin/sh
 
-# Folder to save/update files
-LOCAL_FOLDER="./"
+REPO_ZIP_URL="https://github.com/King11555/EMS_test/archive/refs/heads/main.zip"
+LOCAL_FOLDER="./EMS_test"
+TMP_ZIP="repo.zip"
+TMP_DIR="repo_tmp"
 
-# Make sure folder exists
-mkdir -p "$LOCAL_FOLDER"
+echo "Downloading repository..."
+wget -q -O "$TMP_ZIP" "$REPO_ZIP_URL" \
+    && echo "✅ Downloaded." \
+    || { echo "❌ Download failed."; exit 1; }
 
-# Download EMS_test.py
-echo "Updating EMS_test.py ..."
-wget -q -O "$LOCAL_FOLDER/EMS_test.py" "https://raw.githubusercontent.com/King11555/EMS_test/refs/heads/main/EMS_test.py" \
-    && echo "✅ EMS_test.py updated successfully." \
-    || echo "❌ Failed to update EMS_test.py."
+echo "Cleaning old files..."
+rm -rf "$TMP_DIR"
+rm -rf "$LOCAL_FOLDER"
 
-# Download config.yaml
-echo "Updating config.yaml ..."
-wget -q -O "$LOCAL_FOLDER/config.yaml" "https://raw.githubusercontent.com/King11555/EMS_test/refs/heads/main/config.yaml" \
-    && echo "✅ config.yaml updated successfully." \
-    || echo "❌ Failed to update config.yaml."
+echo "Extracting..."
+mkdir -p "$TMP_DIR"
+unzip -q "$TMP_ZIP" -d "$TMP_DIR" \
+    && echo "✅ Extracted." \
+    || { echo "❌ Extraction failed."; exit 1; }
+
+echo "Moving files..."
+mv "$TMP_DIR"/EMS_test-main "$LOCAL_FOLDER"
+
+echo "Cleaning up..."
+rm -rf "$TMP_ZIP" "$TMP_DIR"
+
+echo "✅ Update complete."
