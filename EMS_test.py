@@ -589,6 +589,7 @@ def CITANJE_REGISTARA():
              # PROBNI B
             try:
                 probni_b_value = read_register_internal(probni_b_citanje["register_id"], client_key=probni_b_citanje["client_key"], datatype=probni_b_citanje["datatype"]).get("data", 0)
+                print (probni_b_value)
                 if probni_b_value=="True":
                     probni_b_value=1
                 else: 
