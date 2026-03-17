@@ -589,9 +589,21 @@ def CITANJE_REGISTARA():
              # PROBNI B
             try:
                 probni_b_value = read_register_internal(probni_b_citanje["register_id"], client_key=probni_b_citanje["client_key"], datatype=probni_b_citanje["datatype"]).get("data", 0)
+                if probni_b_value=="True":
+                    probni_b_value=1
+                else: 
+                    probni_b_value=0
 
-                print(f"optokupler vrijednost: {probni_b_value}")
-               
+                                #EMAIL TRIGGER
+                if probni_b_value is not None and probni_b_value !=1:
+                    current_time = time.time()
+
+                    if current_time - last_email_time > EMAIL_COOLDOWN:
+                        send_email_alert(
+                            subject="TEST - slanje E-maila",
+                            body=f"Prekidač u susretnom postrojenju isklopljen: {probni_b_value} !"
+                        )
+                        last_email_time = current_time            
             
             except Exception as e:
                 probni_b_value = 0
