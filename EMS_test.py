@@ -19,6 +19,9 @@ import math
 import yaml
 import struct
 import logging
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 app = Flask(__name__)
 #------------------------------------------------------------------------POMOĆNE KORISNE FUNKCIJE ZA NADOGRADNJE----------------------------------------------------------------------------
@@ -481,7 +484,38 @@ def get_write_registers():
 
     return jsonify(response)
 
+last_email_time = 0
+EMAIL_COOLDOWN = 60  # seconds
+
+# ---------------------------------- Rutina za slanje mail-a ---------------------------------------------------
+
+def send_email_alert(subject, body):
+    sender_email = "filip.kralj@solektra.hr"
+    receiver_email = "kralj.filip007@gmail.com"
+    password = "syaa vzpb pogu yseb"  # from Google
+
+    try:
+        msg = MIMEMultipart()
+        msg["From"] = sender_email
+        msg["To"] = receiver_email
+        msg["Subject"] = subject
+
+        msg.attach(MIMEText(body, "plain"))
+
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login(sender_email, password)
+        server.send_message(msg)
+        server.quit()
+
+        logger.info("Email poslan!")
+
+    except Exception as e:
+        logger.error(f"Email error: {e}")
+
+
 # ---------------------------------- Definiranje registara i varijabli za čitanje ------------------------------------------------
+
 
 probni_a_value=0
 probni_b_value=0
@@ -525,6 +559,7 @@ probni_c_citanje=config["definicija_registara"]["probni_c_citanje"]
 def CITANJE_REGISTARA():
     
     global probni_a_value,  probni_b_value, probni_c_value
+    global last_email_time
 
     while True:
         try:
@@ -534,6 +569,19 @@ def CITANJE_REGISTARA():
                 probni_a_value *= probni_a_citanje["gain"]
                 probni_a_value = safe_round(probni_a_value)
                 print(f"Vrijednost struje L1(A) {probni_a_value}")
+
+                #EMAIL TRIGGER
+                if probni_a_value is not None and probni_a_value > 50:
+                    current_time = time.time()
+
+                    if current_time - last_email_time > EMAIL_COOLDOWN:
+                        send_email_alert(
+                            subject="TEST - slanje E-maila",
+                            body=f"Prekidač u susretnom postrojenju isklopljen: {probni_a_value} !"
+                        )
+                        last_email_time = current_time
+
+
             except Exception as e:
                 probni_a_value = 0
                 logger.warning("Greška čitanja podataka s probnog A registra: %s", e)
@@ -644,9 +692,9 @@ def MQTT_indikator():
 
             data1 = {
                 
-                "L1 (A) ured": probni_a_value,
-                "SN_SOL_IX": 2,
-                "NN_SOL_IX" : 3
+                "Input 1": probni_a_value,
+                "Input 2": probni_b_value,
+                "Input 3" : probni_c_value
             }
 
             payload = json.dumps(data1)
