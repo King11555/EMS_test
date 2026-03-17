@@ -1,0 +1,113 @@
+                                            ######################################################################################################
+                                            #  Konfiguracijska datoteka EMS-test1.0              #
+                                            ######################################################################################################
+
+
+
+#################################################################
+#                     MODBUS DEVICES                            #
+#################################################################
+MODBUS_DEVICES:
+  A:
+    type: tcp
+    ip: 192.168.1.113
+    port: 502
+    slave_id: 3       # Logger elektrane + baterije (HUAWEI)
+    word_order: big
+
+  B:
+    type: tcp
+    ip: 192.168.0.3
+    port: 502
+    slave_id: 4          # Energy meter na loggeru
+    word_order: big
+
+  C:                    #optokupler
+    type: rtu
+    port: /dev/ttyUSB0
+    baudrate: 115200
+    parity: N
+    stopbits: 1
+    bytesize: 8
+    slave_id: 1
+    word_order: big
+
+  D:                  #Senzor ozračenosti zapad
+    type: rtu
+    port: /dev/ttyUSB0
+    baudrate: 9600
+    parity: N
+    stopbits: 1
+    bytesize: 8
+    slave_id: 1   
+    word_order: big       
+
+
+
+#################################################################
+#                     Definicija registara                      #
+#################################################################
+    
+    #Read a Modbus register with support for multiple datatypes.
+    #
+    #Parameters:
+    #    address (int): Modbus register address
+    #    client_key (str): Key to select Modbus client
+    #    datatype (str): Data type to read. Supported:
+    #                    'int16', 'uint16', 'int32', 'uint32',
+    #                    'float32', 'float64', 'string'
+    #                     'rtu0x02' -> čitanje 0x02 array s optokuplera
+    #Returns:
+    #    dict: {"status": "success"/"error", "message": str, "data": value}
+    #""
+
+definicija_registara:
+
+  #....................... čitanje s registara..............................
+  probni_a_citanje:
+    register_id: 30977
+    client_key: "A"
+    datatype: "int32"
+    gain: 0.01
+
+  probni_b_citanje:
+    register_id: 1
+    client_key: "C"
+    datatype: "rtu0x02"
+    gain: 1
+  
+  probni_c_citanje:
+    register_id: 507
+    client_key: "A"
+    datatype: "uint16"
+    gain: 1
+
+
+    
+  #........................ pisanje u registre.................................
+
+pisanje_u_registre:
+
+  probni_a_pisanje:
+    register_id: 10002
+    description: "Registar 1 - probni upis"
+    explanation: "-"
+    bit_size: 16
+    gain: 10
+    client_key: A
+  
+  probni_b_pisanje:
+    register_id: 40383
+    description: "Registar 2 - probni upis"
+    explanation: "-"
+    bit_size: 16
+    gain: 10
+    client_key: A
+
+  probni_c_pisanje:
+    register_id: 40383
+    description: "Registar 3 - probni upis"
+    explanation: "-"
+    bit_size: 16
+    gain: 10
+    client_key: A
