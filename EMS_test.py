@@ -596,15 +596,15 @@ def CITANJE_REGISTARA():
                     probni_b_value=0
 
                                 #EMAIL TRIGGER
-                if probni_b_value is not None and probni_b_value !=1:
-                    current_time = time.time()
+                # if probni_b_value is not None and probni_b_value !=1:
+                #     current_time = time.time()
 
-                    if current_time - last_email_time > EMAIL_COOLDOWN:
-                        send_email_alert(
-                            subject="TEST - slanje E-maila",
-                            body=f"Prekidač u susretnom postrojenju isklopljen: {probni_b_value} !"
-                        )
-                        last_email_time = current_time            
+                #     if current_time - last_email_time > EMAIL_COOLDOWN:
+                #         send_email_alert(
+                #             subject="TEST - slanje E-maila",
+                #             body=f"Prekidač u susretnom postrojenju isklopljen: {probni_b_value} !"
+                #         )
+                #         last_email_time = current_time            
             
             except Exception as e:
                 probni_b_value = 0
