@@ -18,21 +18,20 @@ fi
 # ------------------------- CLEAN OLD FILES -------------------------
 echo "Cleaning old files..."
 rm -rf "$TMP_DIR"
-rm -rf "$LOCAL_FOLDER"
+# Do not delete LOCAL_FOLDER yet in case copy fails, safer to overwrite later
 
 # ------------------------- EXTRACT -------------------------
 echo "Extracting repository..."
 mkdir -p "$TMP_DIR"
 if unzip -q "$TMP_ZIP" -d "$TMP_DIR"; then
-    echo "✅ Extracted ZIP"
+    echo "✅ Extraction complete"
 else
     echo "❌ Extraction failed!"
     rm -f "$TMP_ZIP"
     exit 1
 fi
 
-# ------------------------- MOVE FILES -------------------------
-# Detect extracted folder (GitHub ZIP always names it <repo>-<branch>)
+# ------------------------- DETECT EXTRACTED FOLDER -------------------------
 EXTRACTED_FOLDER=$(find "$TMP_DIR" -maxdepth 1 -type d -name "EMS_test-*")
 
 if [ -z "$EXTRACTED_FOLDER" ]; then
@@ -41,13 +40,14 @@ if [ -z "$EXTRACTED_FOLDER" ]; then
     exit 1
 fi
 
-echo "Moving files to $LOCAL_FOLDER..."
+# ------------------------- MOVE FILES -------------------------
+echo "Updating $LOCAL_FOLDER with latest files..."
 mkdir -p "$LOCAL_FOLDER"
 
-# Move all files including hidden files
+# Copy all files including hidden ones from the extracted folder into your local folder
 cp -r "$EXTRACTED_FOLDER"/. "$LOCAL_FOLDER"/
 
 # ------------------------- CLEANUP -------------------------
 rm -rf "$TMP_DIR" "$TMP_ZIP"
 
-echo "✅ Update complete. Local folder '$LOCAL_FOLDER' now contains the latest version."
+echo "✅ Update complete. '$LOCAL_FOLDER' now contains the latest version."
