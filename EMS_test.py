@@ -593,12 +593,11 @@ def CITANJE_REGISTARA():
                 if not isinstance(probni_b_value, list):
                     probni_b_value = [probni_b_value]
                 
-                probni_b_bits_int = [1 if bit else 0 for bit in probni_b_value]
                 print(f"Bit 1: {probni_b_value[0]}")
-                print(f"Bit 1: {probni_b_value[1]}")
+                print(f"Bit 2: {probni_b_value[1]}")
 
         #EMAIL TRIGGER
-                if probni_b_value[0] is not None and probni_b_value[0] !=1:
+                if probni_b_value[0] is not None and probni_b_value[0] =="False":
                     current_time = time.time()
 
                     if current_time - last_email_time > EMAIL_COOLDOWN:
