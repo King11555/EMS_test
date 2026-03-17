@@ -597,7 +597,7 @@ def CITANJE_REGISTARA():
                 print(f"Bit 2: {probni_b_value[1]}")
 
         #EMAIL TRIGGER
-                if probni_b_value[0] is not None and probni_b_value[0] =="False":
+                if probni_b_value[0] is not None and probni_b_value[0] ==False:
                     current_time = time.time()
 
                     if current_time - last_email_time > EMAIL_COOLDOWN:
