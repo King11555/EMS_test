@@ -187,7 +187,7 @@ def get_modbus_client(client_key):
                 parity=device["parity"],
                 stopbits=device["stopbits"],
                 bytesize=device["bytesize"],
-                timeout=2
+                timeout=4
             )
         else:
             return None, {"message": "Unsupported device type", "status": "error"}
