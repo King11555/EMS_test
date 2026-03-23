@@ -507,7 +507,7 @@ def send_email_alert(subject, body, receivers=None):
 
     # Default receiver if none provided
     if receivers is None:
-        receivers = ["kralj.filip@solektra.hr"]
+        receivers = ["filip.kralj@solektra.hr"]
 
     try:
         msg = MIMEMultipart()
