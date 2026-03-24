@@ -77,9 +77,9 @@ definicija_registara:
     gain: 0.01
   
   probni_c_citanje:
-    register_id: 1
+    register_id: 30981
     client_key: "A"
-    datatype: "30981"
+    datatype: "int32"
     gain: 0.01
 
   probni_d_citanje:
