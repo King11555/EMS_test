@@ -639,8 +639,8 @@ def FRONTEND_PRIJENOS():
         try:
            
             register_map["M_probni_a"] = probni_a_value
-            register_map["M_probni_b"] = probni_b_value[0]
-            register_map["M_probni_c"] = probni_c_value
+            #register_map["M_probni_b"] = probni_b_value[0]
+            #register_map["M_probni_c"] = probni_c_value
         
         except Exception as e:
             logger.error(f"Problem u programu regulacije: {e}")
