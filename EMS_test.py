@@ -589,29 +589,29 @@ def CITANJE_REGISTARA():
                 probni_a_value = 0
                 logger.warning("Greška čitanja podataka s probnog A registra: %s", e)
 
-             # PROBNI B
-            try:
-                probni_b_value = read_register_internal(probni_b_citanje["register_id"], client_key=probni_b_citanje["client_key"], datatype=probni_b_citanje["datatype"]).get("data", [])
-        # Ensure we have a list
-                if not isinstance(probni_b_value, list):
-                    probni_b_value = [probni_b_value]
+        #      # PROBNI B
+        #     try:
+        #         probni_b_value = read_register_internal(probni_b_citanje["register_id"], client_key=probni_b_citanje["client_key"], datatype=probni_b_citanje["datatype"]).get("data", [])
+        # # Ensure we have a list
+        #         if not isinstance(probni_b_value, list):
+        #             probni_b_value = [probni_b_value]
                 
-                print(f"Bit 1: {probni_b_value[0]}")
-                print(f"Bit 2: {probni_b_value[1]}")
+        #         print(f"Bit 1: {probni_b_value[0]}")
+        #         print(f"Bit 2: {probni_b_value[1]}")
 
-        #EMAIL TRIGGER
-                if probni_b_value[0] is not None and probni_b_value[0] ==False:
-                    current_time = time.time()
+        # #EMAIL TRIGGER
+        #         if probni_b_value[0] is not None and probni_b_value[0] ==False:
+        #             current_time = time.time()
 
-                    if current_time - last_email_time > EMAIL_COOLDOWN:
-                        send_email_alert(
-                            subject="TEST - slanje E-maila",
-                            body=f"Prekidač u susretnom postrojenju isklopljen: {probni_b_value[0]} !"
-                        )
-                        last_email_time = current_time            
+        #             if current_time - last_email_time > EMAIL_COOLDOWN:
+        #                 send_email_alert(
+        #                     subject="TEST - slanje E-maila",
+        #                     body=f"Prekidač u susretnom postrojenju isklopljen: {probni_b_value[0]} !"
+        #                 )
+        #                 last_email_time = current_time            
             
-            except Exception as e:
-                logger.warning("Greška čitanja podataka s probnog B registra: %s", e)    
+        #     except Exception as e:
+        #         logger.warning("Greška čitanja podataka s probnog B registra: %s", e)    
             
             #  # PROBNI C
             # try:
@@ -623,7 +623,7 @@ def CITANJE_REGISTARA():
             #     logger.warning("Greška čitanja podataka s probnog B registra: %s", e)    
         
 
-            time.sleep(2)
+            time.sleep(1)
 
         except Exception as e:
             # preostale greške u background tasku
