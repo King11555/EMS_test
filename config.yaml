@@ -97,7 +97,7 @@ pisanje_u_registre:
     client_key: A
   
   probni_b_pisanje:
-    register_id: 40383
+    register_id: 10004
     description: "Registar 2 - probni upis"
     explanation: "-"
     bit_size: 16
