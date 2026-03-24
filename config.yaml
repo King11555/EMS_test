@@ -71,15 +71,15 @@ definicija_registara:
     gain: 0.01
 
   probni_b_citanje:
+    register_id: 30979
+    client_key: "A"
+    datatype: "int32"
+    gain: 0.01
+  
+  probni_c_citanje:
     register_id: 1
     client_key: "C"
     datatype: "rtu0x02"
-    gain: 1
-  
-  probni_c_citanje:
-    register_id: 507
-    client_key: "A"
-    datatype: "uint16"
     gain: 1
 
 

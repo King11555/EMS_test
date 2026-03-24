@@ -596,7 +596,7 @@ def CITANJE_REGISTARA():
                 print(f"Vrijednost struje L1(A) {probni_b_value}")
 
             except Exception as e:
-                probni_a_value = 0
+                probni_b_value = 0
                 logger.warning("Greška čitanja podataka s probnog A registra: %s", e)
 
 
