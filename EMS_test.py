@@ -598,6 +598,16 @@ def CITANJE_REGISTARA():
             except Exception as e:
                 probni_b_value = 0
                 logger.warning("Greška čitanja podataka s probnog A registra: %s", e)
+            #probni B
+            try:
+                probni_c_value = read_register_internal(probni_c_citanje["register_id"], client_key=probni_c_citanje["client_key"], datatype=probni_c_citanje["datatype"]).get("data", 0)
+                probni_c_value *= probni_c_citanje["gain"]
+                probni_c_value = safe_round(probni_c_value)
+                print(f"Vrijednost struje L1(A) {probni_c_value}")
+
+            except Exception as e:
+                probni_c_value = 0
+                logger.warning("Greška čitanja podataka s probnog A registra: %s", e)
 
 
         #      # PROBNI B

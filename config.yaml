@@ -78,9 +78,15 @@ definicija_registara:
   
   probni_c_citanje:
     register_id: 1
+    client_key: "A"
+    datatype: "30981"
+    gain: 0.01
+
+  probni_d_citanje:
+    register_id: 1
     client_key: "C"
     datatype: "rtu0x02"
-    gain: 1
+    gain: 1  
 
 
     
